@@ -1,4 +1,4 @@
-import { cart, cartItemDeleter } from "../data/cart.js";
+import { cart, cartItemDeleter, deliveryOptionUpdater } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { currencyFormatter } from "./utils/money.js";
 import { deliveryOptions } from "../data/deliveryOptions.js";
@@ -28,7 +28,6 @@ cart.forEach((cartItem) => {
 
   const today = dayjs();
   const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
-  console.log(`Delivery date: ${deliveryDate}`);
   const dateString = deliveryDate.format("dddd, MMMM D");
 
 
@@ -92,20 +91,25 @@ function deliveryOptionsHTML(matchingProduct,cartItem) {
     
 
     html += `
-    <div class="delivery-option">
-        <input
-          type="radio"
-          ${isChecked ? 'checked' : ''}
-          class="delivery-option-input"
-          name="delivery-option-${matchingProduct.id}"
-        />
-        <div>
-          <div class="delivery-option-date">${dateString}</div>
-          <div class="delivery-option-price">${priceString} - Shipping</div>
-        </div>
-      </div>
-  
-                `;
+  <div 
+    class="delivery-option js-delivery-option"
+    data-product-id="${matchingProduct.id}"
+    data-delivery-options-id="${deliveryOption.id}">
+    
+    <input
+      type="radio"
+      ${isChecked ? "checked" : ""}
+      class="delivery-option-input"
+      name="delivery-option-${matchingProduct.id}"
+    />
+    
+    <div>
+      <div class="delivery-option-date">${dateString}</div>
+      <div class="delivery-option-price">${priceString} - Shipping</div>
+    </div>
+  </div>
+`;
+
   });
   return html;
 }
@@ -118,5 +122,17 @@ document.querySelectorAll(".delete-quantity-link").forEach((deleteLink) => {
     cartItemDeleter(productId);
 
     document.querySelector(`.js-cart-item-container-${productId}`).remove();
+  });
+});
+
+document.querySelectorAll(".js-delivery-option").forEach((element) => {
+  element.addEventListener("click", () => {
+    const productId = element.dataset.productId;
+    const deliveryOptionsId = element.dataset.deliveryOptionsId;
+
+    deliveryOptionUpdater(productId, deliveryOptionsId);
+
+    // Optional: re-render the cart or reload to reflect the change
+    location.reload(); // use this if re-rendering manually is too messy
   });
 });
