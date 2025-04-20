@@ -1,7 +1,16 @@
 import { cart,addToCart } from "../data/cart.js";
 import { products } from "../data/products.js";
-import { currencyFormatter } from "./utils/money.js";
+import { currencyFormatter } from "./utils/money.js"; // named Exports from utils/money.js
+import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js"; //default export from dayjs library
 let productsHTML = ``;
+
+const today = dayjs(); // Display current date and time using dayjs library
+
+
+const deliverydate = today.add(7,'days').format('dddd, MMMM D');
+
+console.log(`Delivery date: ${deliverydate}`);
+
 
 products.forEach((product) => {
   productsHTML += `<div class="product-container">
