@@ -1,4 +1,4 @@
-import { cart, cartItemDeleter, deliveryOptionUpdater } from "../../data/cart.js";
+import { cart, cartItemDeleter, deliveryOptionUpdater,updateQuantity } from "../../data/cart.js";
 import { products,getProductById } from "../../data/products.js";
 import { currencyFormatter } from "../utils/money.js";
 import { deliveryOptions,getDeliveryOption } from "../../data/deliveryOptions.js";
@@ -43,9 +43,17 @@ export function renderOrderSummary() {
                     <span> Quantity: <span class="quantity-label">${
                       cartItem.quantity
                     }</span> </span>
-                    <span class="update-quantity-link link-primary">
+                    <span class="update-quantity-link link-primary js-update-link"
+                    data-product-id="${matchingProduct.id}">
                       Update
                     </span>
+                    <input class="quantity-input js-quantity-input-${
+                      matchingProduct.id
+                    }">
+                  <span class="save-quantity-link link-primary js-save-link"
+                    data-product-id="${matchingProduct.id}">
+                    Save
+                  </span>
                     <span class="delete-quantity-link link-primary js-delete-link"
                     data-product-id = "${matchingProduct.id}"
                     >Delete
@@ -125,6 +133,50 @@ export function renderOrderSummary() {
       renderPaymentSummary();
       // Optional: re-render the cart or reload to reflect the change
       // location.reload(); // use this if re-rendering manually is too messy
+    });
+  });
+
+  document.querySelectorAll(".js-update-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      const productId = link.dataset.productId;
+
+      const container = document.querySelector(
+        `.js-cart-item-container-${productId}`
+      );
+      container.classList.add("is-editing-quantity");
+    });
+  });
+
+  document.querySelectorAll(".js-save-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      const productId = link.dataset.productId;
+
+      const container = document.querySelector(
+        `.js-cart-item-container-${productId}`
+      );
+      container.classList.remove("is-editing-quantity");
+
+      const quantityInput = document.querySelector(
+        `.js-quantity-input-${productId}`
+      );
+      const newQuantity = Number(quantityInput.value);
+      updateQuantity(productId, newQuantity);
+
+      // renderCheckoutHeader();
+      renderOrderSummary();
+      renderPaymentSummary();
+
+      // We can delete the code below (from the original solution)
+      // because instead of using the DOM to update the page directly
+      // we can use MVC and re-render everything. This will make sure
+      // the page always matches the data.
+
+      // const quantityLabel = document.querySelector(
+      //   `.js-quantity-label-${productId}`
+      // );
+      // quantityLabel.innerHTML = newQuantity;
+
+      // updateCartQuantity();
     });
   });
 }
