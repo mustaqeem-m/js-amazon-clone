@@ -1,6 +1,7 @@
 import { cart,addToCart } from "../data/cart.js";
 import { products } from "../data/products.js";
-import { currencyFormatter } from "./utils/money.js"; // named Exports from utils/money.js
+import { currencyFormatter } from "./utils/money.js";
+import { saveToStorage } from '../data/cart.js'// named Exports from utils/money.js
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js"; //default export from dayjs library
 let productsHTML = ``;
 
@@ -9,9 +10,7 @@ const today = dayjs(); // Display current date and time using dayjs library
 
 const deliverydate = today.add(7,'days').format('dddd, MMMM D');
 
-console.log(`Delivery date: ${deliverydate}`);
-
-
+cartQuantityUpdater();
 products.forEach((product) => {
   productsHTML += `<div class="product-container">
           <div class="product-image-container">
@@ -36,7 +35,7 @@ products.forEach((product) => {
           </div>    
 
           <div class="product-price">
-            $${currencyFormatter(product.priceCents)}}
+            $${currencyFormatter(product.priceCents)}
             </div>
 
           <div class="product-quantity-container">
@@ -71,14 +70,14 @@ document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
 
 function cartQuantityUpdater() {
-  {
-    let cartQuantity = 0;
-    cart.forEach((cartItem) => {
-      cartQuantity += cartItem.quantity;
-    });
-    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
-  }
-};
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+  document.querySelector(".js-cart-quantity").innerText = cartQuantity;
+  saveToStorage();
+}
+
 
 
 
