@@ -3,6 +3,7 @@ import { products,getProductById } from "../../data/products.js";
 import { currencyFormatter } from "../utils/money.js";
 import { deliveryOptions,getDeliveryOption } from "../../data/deliveryOptions.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
+import {renderPaymentSummary} from './paymentSummary.js'; // named Exports from paymentSummary.jss'; // named Exports from paymentSummary.js
 
 export function renderOrderSummary() {
   let cartHTML = ``;
@@ -46,8 +47,8 @@ export function renderOrderSummary() {
                       Update
                     </span>
                     <span class="delete-quantity-link link-primary js-delete-link"
-                    data-product-id = "${matchingProduct.id}">
-                      Delete
+                    data-product-id = "${matchingProduct.id}"
+                    >Delete
                     </span>
                   </div>
                 </div>
@@ -109,6 +110,7 @@ export function renderOrderSummary() {
       cartItemDeleter(productId);
 
       document.querySelector(`.js-cart-item-container-${productId}`).remove();
+      renderPaymentSummary(); // named Exports from paymentSummary.jss'; // named Exports from paymentSummary.js
     });
   });
 
@@ -120,6 +122,7 @@ export function renderOrderSummary() {
       deliveryOptionUpdater(productId, deliveryOptionsId);
 
       renderOrderSummary();
+      renderPaymentSummary();
       // Optional: re-render the cart or reload to reflect the change
       // location.reload(); // use this if re-rendering manually is too messy
     });
