@@ -1,31 +1,21 @@
 import { cart, cartItemDeleter, deliveryOptionUpdater } from "../../data/cart.js";
-import { products } from "../../data/products.js";
+import { products,getProductById } from "../../data/products.js";
 import { currencyFormatter } from "../utils/money.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js";
+import { deliveryOptions,getDeliveryOption } from "../../data/deliveryOptions.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 
-export function RerunOrRenderOrderSummary() {
+export function renderOrderSummary() {
   let cartHTML = ``;
 
   cart.forEach((cartItem) => {
     const productId = cartItem.productId;
 
-    let matchingProduct;
+    let matchingProduct = getProductById(productId);
 
-    products.forEach((product) => {
-      if (productId === product.id) {
-        matchingProduct = product;
-      }
-    });
+   
     const deliveryOptionsId = cartItem.deliveryOptionsId;
 
-    let deliveryOption;
-
-    deliveryOptions.forEach((Option) => {
-      if (Option.id === deliveryOptionsId) {
-        deliveryOption = Option;
-      }
-    });
+    const deliveryOption = getDeliveryOption(deliveryOptionsId);
 
     const today = dayjs();
     const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
@@ -129,7 +119,7 @@ export function RerunOrRenderOrderSummary() {
 
       deliveryOptionUpdater(productId, deliveryOptionsId);
 
-      RerunOrRenderOrderSummary();
+      renderOrderSummary();
       // Optional: re-render the cart or reload to reflect the change
       // location.reload(); // use this if re-rendering manually is too messy
     });
