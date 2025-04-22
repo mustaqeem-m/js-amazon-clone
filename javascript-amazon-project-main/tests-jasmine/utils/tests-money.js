@@ -1,4 +1,4 @@
-import { currencyFormatter } from "../Scripts/utils/money.js";
+import { currencyFormatter } from "../../Scripts/utils/money.js";
 
 describe("Currency Test_suite", () => {
     it("converts cents to dollars", () => {
@@ -16,4 +16,5 @@ describe("Currency Test_suite", () => {
     //     expect(currencyFormatter(1234567890).toEqual('1,234,567.89'))
     // })
 });
+
 
