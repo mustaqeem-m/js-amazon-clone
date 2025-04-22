@@ -1,9 +1,17 @@
-import { cart, cartItemDeleter, deliveryOptionUpdater,updateQuantity } from "../../data/cart.js";
-import { products,getProductById } from "../../data/products.js";
+import {
+  cart,
+  cartItemDeleter,
+  deliveryOptionUpdater,
+  updateQuantity,
+} from "../../data/cart.js";
+import { products, getProductById } from "../../data/products.js";
 import { currencyFormatter } from "../utils/money.js";
-import { deliveryOptions,getDeliveryOption } from "../../data/deliveryOptions.js";
+import {
+  deliveryOptions,
+  getDeliveryOption,
+} from "../../data/deliveryOptions.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
-import {renderPaymentSummary} from './paymentSummary.js'; // named Exports from paymentSummary.jss'; // named Exports from paymentSummary.js
+import { renderPaymentSummary } from "./paymentSummary.js"; // named Exports from paymentSummary.jss'; // named Exports from paymentSummary.js
 
 export function renderOrderSummary() {
   let cartHTML = ``;
@@ -13,7 +21,6 @@ export function renderOrderSummary() {
 
     let matchingProduct = getProductById(productId);
 
-   
     const deliveryOptionsId = cartItem.deliveryOptionsId;
 
     const deliveryOption = getDeliveryOption(deliveryOptionsId);
@@ -23,6 +30,7 @@ export function renderOrderSummary() {
     const dateString = deliveryDate.format("dddd, MMMM D");
 
     cartHTML += `<div class="cart-item-container 
+          js-cart-item-container 
           js-cart-item-container-${matchingProduct.id} ">
               <div class="delivery-date">Delivery date:${dateString}</div>
 
@@ -39,9 +47,11 @@ export function renderOrderSummary() {
                   <div class="product-price">$${currencyFormatter(
                     matchingProduct.priceCents
                   )}</div>
-                  <div class="product-quantity">
+                  <div class="product-quantity 
+                  js-product-quantity-${matchingProduct.id}
+                  ">
                     <span> Quantity: <span class="quantity-label">${
-                      cartItem.quantity
+                      cartItem.quantity 
                     }</span> </span>
                     <span class="update-quantity-link link-primary js-update-link"
                     data-product-id="${matchingProduct.id}">
@@ -50,7 +60,8 @@ export function renderOrderSummary() {
                     <input class="quantity-input js-quantity-input-${
                       matchingProduct.id
                     }">
-                  <span class="save-quantity-link link-primary js-save-link"
+                  <span class="save-quantity-link link-primary js-save-link
+                  js-delete-link-${matchingProduct.id}" 
                     data-product-id="${matchingProduct.id}">
                     Save
                   </span>
@@ -180,4 +191,3 @@ export function renderOrderSummary() {
     });
   });
 }
-
