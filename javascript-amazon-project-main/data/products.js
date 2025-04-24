@@ -1,6 +1,8 @@
+import { currencyFormatter } from "../Scripts/utils/money.js";
+
 export function getProductById(productId) {
   let matchingProduct;
-  
+
   products.forEach((product) => {
     if (productId === product.id) {
       matchingProduct = product;
@@ -9,6 +11,33 @@ export function getProductById(productId) {
   return matchingProduct;
 }
 
+class Products {
+  // here still we are creating objects of type Products by using class Bcuz classes have features
+  // like constructors, inheritance, and other object-oriented features that we use of.
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+  keywords;
+
+  constructor(productData) {
+    this.id = productData.id;
+    this.image = productData.image;
+    this.name = productData.name;
+    this.rating = productData.rating;
+    this.priceCents = productData.priceCents;
+    this.keywords = productData.keywords;
+  }
+
+  getStarsUrl() {
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
+  }
+
+  getPrice() {
+    return `${currencyFormatter(this.priceCents)}`;
+  }
+};
 
 export const products = [
   {
@@ -481,4 +510,10 @@ export const products = [
     priceCents: 2400,
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
-];
+].map((productData) => {
+  return new Products(productData);
+});
+
+//here we converted all of our projetcs from regular objects into objects of the Products class
+
+
