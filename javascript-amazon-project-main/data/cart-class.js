@@ -2,20 +2,20 @@ class Cart {
   // cartItem = undefined;
   // localStorageKey = undefined;
 
-  cartItem;
-  localStorageKey;
+  cartItem; //publc property
+  #localStorageKey; // private property
 
   cart;
 
   constructor(localStorageKey) {
     // ! constructor have the set up code which ruen everytime when a new object is created using this class.
-    this.localStorageKey = localStorageKey;
+    this.#localStorageKey = localStorageKey;
 
-    this.loadFromStorage();
+    this.#loadFromStorage();
   }
 
-  loadFromStorage() {
-    this.cartItem = JSON.parse(localStorage.getItem(this.localStorageKey));
+  #loadFromStorage() {
+    this.cartItem = JSON.parse(localStorage.getItem(this.#localStorageKey));
 
     if (this.cartItem === null) {
       this.cartItem = [
@@ -34,7 +34,7 @@ class Cart {
   }
 
   saveToStorage() {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItem));
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItem));
   }
 
   addTocart(productId) {
@@ -103,10 +103,9 @@ class Cart {
 }
 
 const cart = new Cart("cart-oop");
-
 const buisnessCart = new Cart("buisness-cart-oop");
-
-// cart.addTocart("54e0eccd-8f36-462b-b68a-8182611d9add");
+// cart.#localStorageKey = "cart-oop1"; // This will not work because we can't access private property from outside the class.
 
 console.log(cart);
 console.log(buisnessCart);
+console.log(cart instanceof Cart);
