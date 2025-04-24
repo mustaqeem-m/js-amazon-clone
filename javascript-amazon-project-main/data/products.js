@@ -41,9 +41,10 @@ class Products {
   extraInfoHTML() {
     return "";
   }
-};
+}
 
-class Clothing extends Products { // inheriting from Products class
+class Clothing extends Products {
+  // inheriting from Products class
 
   sizeChartLink;
   constructor(productData) {
@@ -52,11 +53,11 @@ class Clothing extends Products { // inheriting from Products class
   }
 
   extraInfoHTML() {
-      // super.extraInfoHTML(); this ll acccess the parents method 
-      return `<a href="${this.sizeChartLink}" target="_blank" >
+    // super.extraInfoHTML(); this ll acccess the parents method
+    return `<a href="${this.sizeChartLink}" target="_blank" >
       Size-Chart
-      </a>`
-    }
+      </a>`;
+  }
 }
 
 // const tshirt = new Clothing({
@@ -75,6 +76,20 @@ class Clothing extends Products { // inheriting from Products class
 
 // console.log(tshirt);
 // console.log(tshirt.getPrice());
+
+// const dateTime = new Date().toLocaleTimeString()
+// console.log(dateTime);
+
+function logthis() {
+  console.log(this);
+}
+
+logthis();
+logthis.call('im replaced value of this')
+
+
+
+
 
 export const products = [
   {
@@ -548,12 +563,10 @@ export const products = [
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
 ].map((productData) => {
-  if (productData.type === 'clothing') {
+  if (productData.type === "clothing") {
     return new Clothing(productData);
   }
   return new Products(productData);
 });
 
 //here we converted all of our projetcs from regular objects into objects of the Products class
-
-
