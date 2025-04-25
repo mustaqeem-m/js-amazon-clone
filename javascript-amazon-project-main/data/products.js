@@ -60,35 +60,66 @@ class Clothing extends Products {
   }
 }
 
-// const tshirt = new Clothing({
-//   id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
-//   image: "images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg",
-//   name: "Adults Plain Cotton T-Shirt - 2 Pack",
-//   rating: {
-//     stars: 4.5,
-//     count: 56,
-//   },
-//   priceCents: 799,
-//   keywords: ["tshirts", "apparel", "mens"],
-//   type: "clothing",
-//   sizeChartLink: "images/clothing-size-chart.png",
-// });
+/*
 
-// console.log(tshirt);
-// console.log(tshirt.getPrice());
+const tshirt = new Clothing({
+  id: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
+  image: "images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg",
+  name: "Adults Plain Cotton T-Shirt - 2 Pack",
+  rating: {
+    stars: 4.5,
+    count: 56,
+  },
+  priceCents: 799,
+  keywords: ["tshirts", "apparel", "mens"],
+  type: "clothing",
+  sizeChartLink: "images/clothing-size-chart.png",
 
-// const dateTime = new Date().toLocaleTimeString()
-// console.log(dateTime);
+});
+*/
 
-// function logthis() {
-//   console.log(this);
-// }
+/*
+console.log(tshirt);
+console.log(tshirt.getPrice());
 
-// logthis();
-// logthis.call('im replaced value of this')
+const dateTime = new Date().toLocaleTimeString()
+console.log(dateTime);
+*/
 
+/*
+function logthis() {
+  console.log(this);
+}
+
+logthis();
+logthis.call('im replaced value of this')
+*/
 export let products = [];
 
+export function loadProductsFetch() {
+  const promise = fetch("https://supersimplebackend.dev/products")
+    .then((response) => response.json())
+    .then((productsData) => {
+      products = productsData.map((productDetails) => {
+        if (productDetails.type === "clothing") {
+          return new Clothing(productDetails);
+        }
+        return new Products(productDetails);
+      });
+
+      console.log("load products");
+    })
+    .catch((error) => {
+      console.error("Error loading products:", error);
+    });
+  return promise;
+}
+
+loadProductsFetch().then(() => {
+  console.log('next-step');
+});
+
+/*
 export function loadProducts(callback) {
   const xhr = new XMLHttpRequest();
   xhr.addEventListener("load", () => {
@@ -98,7 +129,7 @@ export function loadProducts(callback) {
       }
       return new Products(productData);
     });
-    console.log("laod products");
+    console.log("load products");
 
     if (typeof callback === "function") {
       callback(); // ✅ Safe call
@@ -107,7 +138,7 @@ export function loadProducts(callback) {
   xhr.open("GET", "https://supersimplebackend.dev/products");
   xhr.send();
 }
-
+*/
 // loadProducts();
 
 // export const products = [
