@@ -87,8 +87,6 @@ class Clothing extends Products {
 // logthis();
 // logthis.call('im replaced value of this')
 
-
-
 export let products = [];
 
 export function loadProducts(callback) {
@@ -100,7 +98,7 @@ export function loadProducts(callback) {
       }
       return new Products(productData);
     });
-    console.log("Products loaded:", products);
+    console.log("laod products");
 
     if (typeof callback === "function") {
       callback(); // ✅ Safe call
@@ -110,9 +108,7 @@ export function loadProducts(callback) {
   xhr.send();
 }
 
-
 // loadProducts();
-
 
 // export const products = [
 //   {

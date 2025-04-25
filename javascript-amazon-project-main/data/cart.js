@@ -86,3 +86,17 @@ export function updateQuantity(productId, newQuantity) {
 
   saveToStorage();
 }
+
+// for practise pusrpose we loading cart its response is just "load-cart"
+export function loadCart(callback) {
+  const xhr = new XMLHttpRequest();
+  xhr.addEventListener("load", () => {
+    console.log(xhr.response);
+
+    if (typeof callback === "function") {
+      callback(); // ✅ Safe call
+    }
+  });
+  xhr.open("GET", "https://supersimplebackend.dev/cart");
+  xhr.send();
+}
