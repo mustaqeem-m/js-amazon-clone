@@ -119,6 +119,7 @@ loadProductsFetch().then(() => {
   console.log("next-step");
 });
 
+
 /*
 export function loadProducts(callback) {
   const xhr = new XMLHttpRequest();
@@ -135,7 +136,11 @@ export function loadProducts(callback) {
       callback(); // ✅ Safe call
     }
   });
-  xhr.open("GET", "https://supersimplebackend.dev/products");
+
+  xhr.addEventListener('error', (error ) => {
+    console.log('unexpected error , please try again later.')
+  });
+  xhr.open("GET", "https://error.supersimplebackend.dev/products");
   xhr.send();
 }
 */
