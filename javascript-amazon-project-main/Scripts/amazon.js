@@ -1,10 +1,14 @@
 import { cart,addToCart } from "../data/cart.js";
-import { products,loadProducts } from "../data/products.js";
+import { products,loadProductsFetch } from "../data/products.js";
 import { currencyFormatter } from "./utils/money.js";
 import { saveToStorage } from '../data/cart.js'// named Exports from utils/money.js
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js"; //default export from dayjs library
 
-loadProducts(renderProductsGrid);
+// loadProducts(renderProductsGrid);
+loadProductsFetch().then(() => {
+  renderProductsGrid();
+});
+
 
 function renderProductsGrid() {
   let productsHTML = ``;
