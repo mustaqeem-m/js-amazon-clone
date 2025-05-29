@@ -1,7 +1,7 @@
-import { cart,addToCart } from "../data/cart.js";
-import { products,loadProductsFetch } from "../data/products.js";
+import { cart, addToCart } from "../data/cart.js";
+import { products, loadProductsFetch } from "../data/products.js";
 import { currencyFormatter } from "./utils/money.js";
-import { saveToStorage } from '../data/cart.js'// named Exports from utils/money.js
+import { saveToStorage } from "../data/cart.js"; // named Exports from utils/money.js
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js"; //default export from dayjs library
 
 // loadProducts(renderProductsGrid);
@@ -9,8 +9,8 @@ loadProductsFetch().then(() => {
   renderProductsGrid();
 });
 
-
 function renderProductsGrid() {
+  const addToCart_btn = document.querySelector(".add-to-cart-button");
   let productsHTML = ``;
 
   const today = dayjs(); // Display current date and time using dayjs library
@@ -46,7 +46,7 @@ function renderProductsGrid() {
             </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-selector-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -85,13 +85,28 @@ function renderProductsGrid() {
     saveToStorage();
   }
 
-  document.querySelectorAll(".add-to-cart-button").forEach((button) => {
-    button.addEventListener("click", () => {
-      const productId = button.dataset.productId;
-      addToCart(productId);
+  document.querySelector(".js-products-grid").addEventListener("click", (e) => {
+    if (e.target.classList.contains("add-to-cart-button")) {
+      const productId = addToCart_btn.dataset.productId;
+
+      const quantitySelector = document.querySelector(".js-quantity-selector-${product.id}");
+      const selectedQuantity = Number(quantitySelector.value);
+
+      addToCart(productId, selectedQuantity);
       cartQuantityUpdater();
-    });
+    }
   });
+
+  document
+    .querySelector(".products-grid")
+    .querySelectorAll(".add-to-cart-button")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        const productId = e.target.dataset.productId;
+        addToCart(productId);
+        cartQuantityUpdater();
+      });
+    });
 
   function cartItemDeleter(productId) {
     const cart_updated = [];
@@ -102,4 +117,16 @@ function renderProductsGrid() {
       }
     });
   }
+  document.querySelector(".js-products-grid").addEventListener("click", (e) => {
+    if (e.target.classList.contains("add-to-cart-button")) {
+      const productId = e.target.dataset.productId;
+
+      const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
+      const selectedQuantity = Number(quantitySelector.value);
+
+      addToCart(productId, selectedQuantity);
+      cartQuantityUpdater();
+    }
+  });
+  
 }
