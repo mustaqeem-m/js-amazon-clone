@@ -64,13 +64,17 @@ function renderProductsGrid() {
           
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
-            <img src="images/icons/checkmark.png" />
+          <div class="product-action"s>
+           <div class="added-to-cart-${product.id} js-added" data-product-id=${
+      product.id
+    } style="display: none;">
+            <img class='check-img' src="images/icons/checkmark.png" />
             Added
           </div>
 
           <button class="add-to-cart-button button-primary"
           data-product-id="${product.id}">Add to Cart</button>
+        </div>
         </div>`;
   });
 
@@ -87,9 +91,12 @@ function renderProductsGrid() {
 
   document.querySelector(".js-products-grid").addEventListener("click", (e) => {
     if (e.target.classList.contains("add-to-cart-button")) {
-      const productId = addToCart_btn.dataset.productId;
+      // const productId = addToCart_btn.dataset.productId;
+      const { productId } = e.target.dataset;
 
-      const quantitySelector = document.querySelector(".js-quantity-selector-${product.id}");
+      const quantitySelector = document.querySelector(
+        ".js-quantity-selector-${product.id}"
+      );
       const selectedQuantity = Number(quantitySelector.value);
 
       addToCart(productId, selectedQuantity);
@@ -118,15 +125,25 @@ function renderProductsGrid() {
     });
   }
   document.querySelector(".js-products-grid").addEventListener("click", (e) => {
+    const { productId } = e.target.dataset;
     if (e.target.classList.contains("add-to-cart-button")) {
-      const productId = e.target.dataset.productId;
-
-      const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
+      const quantitySelector = document.querySelector(
+        `.js-quantity-selector-${productId}`
+      );
       const selectedQuantity = Number(quantitySelector.value);
 
       addToCart(productId, selectedQuantity);
       cartQuantityUpdater();
+
+      // e.target.style.display = 'none';
+      document.querySelector(
+        `.js-added[data-product-id="${productId}"]`
+      ).style.display = "block";
+      setTimeout(() => {
+        document.querySelector(
+          `.js-added[data-product-id="${productId}"]`
+        ).style.display = "none";
+      }, 2000);
     }
   });
-  
 }

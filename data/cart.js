@@ -38,8 +38,10 @@ export function addToCart(productId,quantity = 1) {
     matchingItem.quantity += quantity;
   } else {
     cart.push({
-      productId: productId,
-      quantity: quantity,
+      // productId: productId,
+      // quantity: quantity,
+      productId ,
+      quantity,
       deliveryOptionsId: "1", // Default delivery option for new items
     });
   }
