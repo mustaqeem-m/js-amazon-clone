@@ -167,7 +167,21 @@
   align-items: center;
   color: green;
   font-size: 14px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 0.4s ease, transform 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
 }
+
+.js-added.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+
 
 .check-img {
   height: 16px;

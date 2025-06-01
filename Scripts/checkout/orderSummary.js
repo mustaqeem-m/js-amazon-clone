@@ -2,7 +2,7 @@ import {
   cart,
   cartItemDeleter,
   deliveryOptionUpdater,
-  updateQuantity,
+  cartQuantityUpdater,
 } from "../../data/cart.js";
 import { products, getProductById } from "../../data/products.js";
 import { currencyFormatter } from "../utils/money.js";
@@ -170,7 +170,7 @@ export function renderOrderSummary() {
         `.js-quantity-input-${productId}`
       );
       const newQuantity = Number(quantityInput.value);
-      updateQuantity(productId, newQuantity);
+      cartQuantityUpdater(productId, newQuantity);
 
       // renderCheckoutHeader();
       renderOrderSummary();

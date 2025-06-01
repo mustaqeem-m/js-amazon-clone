@@ -1,36 +1,35 @@
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import { loadProductsFetch } from "../data/products.js";
-import { loadCart } from "../data/cart.js";
-
-// import "../data/cart-oop.js";
-// import '../data/cart-class.js';
-// import '../data/backend_sample.js';
+import { loadCartFromStorage, cart } from "../data/cart.js";
 
 async function loadPage() {
   try {
+    console.log("load products");
     await loadProductsFetch();
 
-    await new Promise((resolve) => {
-      loadCart(() => {
-        resolve("value");
+    console.log("next-step");
+    loadCartFromStorage(); // ✅ <-- This actually sets `cart`
+
+    if (Array.isArray(cart)) {
+      let totalQuantity = 0;
+      cart.forEach((item) => {
+        totalQuantity += item.quantity;
       });
-    });
+
+      document.querySelector(".js-itemNo").innerHTML = `(${totalQuantity} items)`;
+    } else {
+      console.warn("Cart data not loaded properly.");
+    }
+
+    renderOrderSummary();
+    renderPaymentSummary();
+  } catch (error) {
+    console.log("error: " + error);
   }
-  catch (error) {
-    console.log('error' + error)
-  }
-  
-
-  renderOrderSummary();
-  renderPaymentSummary();
-};
-  
-
-
+}
 
 loadPage();
-
 
 /*
 
