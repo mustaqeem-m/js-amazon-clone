@@ -1,7 +1,12 @@
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import { loadProductsFetch } from "../data/products.js";
-import { loadCartFromStorage, cart } from "../data/cart.js";
+import {
+  loadCartFromStorage,
+  cart,
+  cartQuantityUpdater,
+  quantityCalculator,
+} from "../data/cart.js";
 
 async function loadPage() {
   try {
@@ -12,12 +17,11 @@ async function loadPage() {
     loadCartFromStorage(); // ✅ <-- This actually sets `cart`
 
     if (Array.isArray(cart)) {
-      let totalQuantity = 0;
-      cart.forEach((item) => {
-        totalQuantity += item.quantity;
-      });
+      let totalQuantity = quantityCalculator();
 
-      document.querySelector(".js-itemNo").innerHTML = `(${totalQuantity} items)`;
+      document.querySelector(
+        ".js-itemNo"
+      ).innerHTML = `(${totalQuantity} items)`;
     } else {
       console.warn("Cart data not loaded properly.");
     }

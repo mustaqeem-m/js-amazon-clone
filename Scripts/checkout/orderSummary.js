@@ -3,6 +3,7 @@ import {
   cartItemDeleter,
   deliveryOptionUpdater,
   cartQuantityUpdater,
+  updateQuantity,
 } from "../../data/cart.js";
 import { products, getProductById } from "../../data/products.js";
 import { currencyFormatter } from "../utils/money.js";
@@ -56,9 +57,12 @@ export function renderOrderSummary() {
                     data-product-id="${matchingProduct.id}">
                       Update
                     </span>
-                    <input class="quantity-input js-quantity-input-${
-                      matchingProduct.id
-                    }">
+                    <input type="number" min="1" max="999"  oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 3)"
+                      class="quantity-input js-quantity-input-${
+                        matchingProduct.id
+                      }"
+                      data-product-id="${matchingProduct.id}">
+
                   <span class="save-quantity-link link-primary js-save-link
                   js-delete-link-${matchingProduct.id}" 
                     data-product-id="${matchingProduct.id}">
@@ -129,6 +133,16 @@ export function renderOrderSummary() {
 
       document.querySelector(`.js-cart-item-container-${productId}`).remove();
       renderPaymentSummary(); // named Exports from paymentSummary.jss'; // named Exports from paymentSummary.js
+
+      // 🔁 Update the cart quantity in header
+      let totalQuantity = 0;
+      cart.forEach((item) => {
+        totalQuantity += item.quantity;
+      });
+
+      document.querySelector(
+        ".js-itemNo"
+      ).innerText = `(${totalQuantity} items)`;
     });
   });
 
@@ -146,6 +160,7 @@ export function renderOrderSummary() {
     });
   });
 
+  //! update event
   document.querySelectorAll(".js-update-link").forEach((link) => {
     link.addEventListener("click", () => {
       const productId = link.dataset.productId;
@@ -157,6 +172,7 @@ export function renderOrderSummary() {
     });
   });
 
+  //! after update save link
   document.querySelectorAll(".js-save-link").forEach((link) => {
     link.addEventListener("click", () => {
       const productId = link.dataset.productId;
@@ -169,24 +185,42 @@ export function renderOrderSummary() {
       const quantityInput = document.querySelector(
         `.js-quantity-input-${productId}`
       );
+
       const newQuantity = Number(quantityInput.value);
-      cartQuantityUpdater(productId, newQuantity);
+      if (newQuantity < 1 || newQuantity > 999) {
+        alert("Please enter a valid quantity below 1000!");
+        quantityInput.value = 1;
+        return;
+      } else {
+        updateQuantity(productId, newQuantity);
+      }
 
       // renderCheckoutHeader();
       renderOrderSummary();
       renderPaymentSummary();
-
-      // We can delete the code below (from the original solution)
-      // because instead of using the DOM to update the page directly
-      // we can use MVC and re-render everything. This will make sure
-      // the page always matches the data.
-
-      // const quantityLabel = document.querySelector(
-      //   `.js-quantity-label-${productId}`
-      // );
-      // quantityLabel.innerHTML = newQuantity;
-
-      // updateCartQuantity();
     });
   });
 }
+
+document.body.addEventListener("keydown", (e) => {
+  if (e.target.classList.contains("quantity-input") && e.key === "Enter") {
+    const input = e.target;
+    const productId = input.dataset.productId;
+
+    const container = document.querySelector(
+      `.js-cart-item-container-${productId}`
+    );
+    container.classList.remove("is-editing-quantity");
+
+    const newQuantity = Number(input.value);
+    if (newQuantity < 1 || newQuantity > 999) {
+      alert("Please enter a valid quantity below 1000!");
+      input.value = 1;
+      return;
+    }
+
+    updateQuantity(productId, newQuantity);
+    renderOrderSummary();
+    renderPaymentSummary();
+  }
+});
