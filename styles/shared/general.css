@@ -1,27 +1,20 @@
 body {
-  font-family: Roboto, Arial;
+  font-family: Roboto, Arial, sans-serif;
   color: rgb(33, 33, 33);
-  /* The <body> element has a default margin of 8px
-     on all sides. This removes the default margins. */
   margin: 0;
+  background-color: #fefefe;
 }
 
-/* <p> elements have a default margin on the top
-   and bottom. This removes the default margins. */
 p {
   margin: 0;
 }
 
-button {
+button,
+select,
+input {
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 15px;
   cursor: pointer;
-}
-
-select {
-  cursor: pointer;
-}
-
-input, select, button {
-  font-family: Roboto, Arial;
 }
 
 .button-primary {
@@ -29,13 +22,14 @@ input, select, button {
   background-color: rgb(255, 216, 20);
   border: 1px solid rgb(252, 210, 0);
   border-radius: 8px;
-  cursor: pointer;
   box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
+  padding: 8px 12px;
+  font-weight: 600;
 }
 
 .button-primary:hover {
   background-color: rgb(247, 202, 0);
-  border: 1px solid rgb(242, 194, 0);
+  border-color: rgb(242, 194, 0);
 }
 
 .button-primary:active {
@@ -49,8 +43,9 @@ input, select, button {
   background: white;
   border: 1px solid rgb(213, 217, 217);
   border-radius: 8px;
-  cursor: pointer;
   box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
+  padding: 8px 12px;
+  font-weight: 500;
 }
 
 .button-secondary:hover {
@@ -62,11 +57,7 @@ input, select, button {
   box-shadow: none;
 }
 
-/* These styles will limit text to 2 lines. Anything
-   beyond 2 lines will be replaced with "..."
-   You can find this code by using an A.I. tool or by
-   searching in Google.
-   https://css-tricks.com/almanac/properties/l/line-clamp/ */
+/* Clamp to 2 lines with ellipsis */
 .limit-text-to-2-lines {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -77,13 +68,15 @@ input, select, button {
 .link-primary {
   color: rgb(1, 124, 182);
   cursor: pointer;
+  text-decoration: none;
 }
 
 .link-primary:hover {
   color: rgb(196, 80, 0);
+  text-decoration: underline;
 }
 
-/* Styles for dropdown selectors. */
+/* Dropdown Styling */
 select {
   color: rgb(33, 33, 33);
   background-color: rgb(240, 240, 240);
@@ -91,7 +84,6 @@ select {
   border-radius: 8px;
   padding: 3px 5px;
   font-size: 15px;
-  cursor: pointer;
   box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5);
 }
 

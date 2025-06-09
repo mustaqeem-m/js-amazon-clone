@@ -1,16 +1,8 @@
 .main {
   max-width: 850px;
-  margin-top: 90px;
-  margin-bottom: 100px;
-  padding-left: 30px;
-  padding-right: 30px;
-
-  /* margin-left: auto;
-     margin-right auto;
-     Is a trick for centering an element horizontally
-     without needing a container. */
-  margin-left: auto;
-  margin-right: auto;
+  margin: 90px auto 100px auto;
+  padding: 0 30px;
+  box-sizing: border-box;
 }
 
 .back-to-orders-link {
@@ -22,6 +14,7 @@
   font-size: 25px;
   font-weight: 700;
   margin-bottom: 10px;
+  color: rgb(0, 118, 0);
 }
 
 .product-info {
@@ -31,8 +24,8 @@
 .product-image {
   max-width: 150px;
   max-height: 150px;
-  margin-top: 25px;
-  margin-bottom: 50px;
+  margin: 25px auto 50px;
+  display: block;
 }
 
 .progress-labels-container {
@@ -67,10 +60,11 @@
 .progress-bar-container {
   height: 25px;
   width: 100%;
-
   border: 1px solid rgb(200, 200, 200);
   border-radius: 50px;
   overflow: hidden;
+  background-color: #f3f3f3;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .progress-bar {
@@ -78,4 +72,5 @@
   background-color: green;
   border-radius: 50px;
   width: 50%;
+  transition: width 0.3s ease;
 }
