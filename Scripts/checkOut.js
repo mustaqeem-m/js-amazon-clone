@@ -7,31 +7,32 @@ import {
   cartQuantityUpdater,
   quantityCalculator,
 } from "../data/cart.js";
+import { renderCheckoutHeader } from "./checkout/checkOutHeader.js";
 
 async function loadPage() {
   try {
-    console.log("load products");
+    console.log("🛒 load products");
     await loadProductsFetch();
 
-    console.log("next-step");
-    loadCartFromStorage(); // ✅ <-- This actually sets `cart`
+    console.log("🛒 loading cart...");
+    loadCartFromStorage(); // check this inside
+
+    console.log("🛒 Cart after loading:", cart);
 
     if (Array.isArray(cart)) {
-      let totalQuantity = quantityCalculator();
-
-      document.querySelector(
-        ".js-itemNo"
-      ).innerHTML = `(${totalQuantity} items)`;
+      const totalQuantity = quantityCalculator();
+      renderCheckoutHeader(totalQuantity);
     } else {
-      console.warn("Cart data not loaded properly.");
+      console.warn("⚠️ Cart data not loaded properly.");
     }
 
     renderOrderSummary();
     renderPaymentSummary();
   } catch (error) {
-    console.log("error: " + error);
+    console.error("🔥 loadPage error:", error.stack || error.message || error);
   }
 }
+
 
 loadPage();
 

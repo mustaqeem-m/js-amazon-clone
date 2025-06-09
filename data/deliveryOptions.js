@@ -1,3 +1,4 @@
+import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 export function getDeliveryOption(deliveryOptionsId) {
   let deliveryOption;
 
@@ -26,3 +27,19 @@ export const deliveryOptions = [
     priceCents: 999,
   },
 ];
+
+export function calculalteDeliveryDate(deliveryOption) {
+  let date = dayjs();
+  let daysLeft = deliveryOption.deliveryDays;
+
+  while (daysLeft > 0) {
+    date = date.add(1, "day");
+    const day = date.format("dddd");
+    const isWeekend = (day === "Saturday" || day === "Sunday");
+
+    if (!isWeekend) {
+      daysLeft--;
+    }
+  }
+  return date.format("dddd, MMMM D");
+}

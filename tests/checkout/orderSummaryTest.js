@@ -1,4 +1,4 @@
-import { loadFromStorage, cart } from "../../data/cart.js";
+import { loadCartFromStorage, cart } from "../../data/cart.js";
 import { renderOrderSummary } from "../../Scripts/checkout/orderSummary.js";
 import { loadProductsFetch } from "../../data/products.js";
 
@@ -38,7 +38,7 @@ describe("Order Summary Test Suite", () => {
       ]);
     });
 
-    loadFromStorage();
+    loadCartFromStorage();
   });
 
   it("displays the cart", (done) => {

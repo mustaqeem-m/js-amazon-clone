@@ -15,6 +15,9 @@ describe("Currency Test_suite", () => {
     // it('edge cases', () => {
     //     expect(currencyFormatter(1234567890).toEqual('1,234,567.89'))
     // })
+    it('works with rounding centsL ', () => {
+        expect(currencyFormatter(2000.4)).toEqual('20.00')
+    })
 });
 
 
